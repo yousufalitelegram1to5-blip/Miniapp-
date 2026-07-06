@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mini Tasker</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Arial, sans-serif;
+            background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
+            color: #fff;
+            text-align: center;
+            margin: 0;
+            padding: 20px;
+        }
+        .container {
+            max-width: 400px;
+            margin: auto;
+            background: rgba(255, 255, 255, 0.1);
+            padding: 25px;
+            border-radius: 20px;
+            box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.18);
+        }
+        h1 {
+            color: #00ffcc;
+            text-shadow: 0 0 10px #00ffcc;
+        }
+        .balance-box {
+            font-size: 24px;
+            font-weight: bold;
+            background: linear-gradient(45deg, #ff416c, #ff4b2b);
+            padding: 15px;
+            border-radius: 15px;
+            margin-bottom: 25px;
+            box-shadow: 0 4px 15px rgba(255, 75, 43, 0.4);
+        }
+        .btn {
+            display: block;
+            width: 100%;
+            padding: 15px;
+            margin: 15px 0;
+            font-size: 18px;
+            font-weight: bold;
+            color: #fff;
+            border: none;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+        .btn:active { transform: scale(0.98); }
+        .btn-ad {
+            background: linear-gradient(45deg, #11998e, #38ef7d);
+            box-shadow: 0 4px 15px rgba(56, 239, 125, 0.4);
+        }
+        .btn-ref {
+            background: linear-gradient(45deg, #8e2de2, #4a00e0);
+            box-shadow: 0 4px 15px rgba(74, 0, 224, 0.4);
+        }
+        .btn-withdraw {
+            background: linear-gradient(45deg, #f857a6, #ff5858);
+            box-shadow: 0 4px 15px rgba(255, 88, 88, 0.4);
+        }
+        .video-player {
+            display: none;
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.9);
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            z-index: 1000;
+        }
+        .video-box {
+            width: 80%;
+            max-width: 320px;
+            height: 180px;
+            background: #222;
+            border: 3px solid #00ffcc;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 18px;
+            border-radius: 10px;
+            margin-bottom: 15px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>Mini Tasker App</h1>
+    <div class="balance-box">আপনার ব্যালেন্স: ৳ <span id="balance">0</span></div>
+
+    <button class="btn btn-ad" onclick="startVideoAd()">📺 ভিডিও অ্যাড দেখুন (৳২০ পাবেন)</button>
+    <button class="btn btn-ref" onclick="showReferLink()">🔗 বন্ধুদের রেফার করুন (৳৫০ পাবেন)</button>
+    <button class="btn btn-withdraw" onclick="withdrawNotice()">💰 টাকা উত্তোলন করুন (Withdraw)</button>
+</div>
+
+<div id="videoPlayer" class="video-player">
+    <div class="video-box">
+        <div id="countdown">🎬 ভিডিও লোড হচ্ছে... ১৫ সেকেন্ড বাকি</div>
+    </div>
+    <p style="color: #bbb;">বিজ্ঞাপনটি সম্পূর্ণ দেখলে ব্যালেন্স যুক্ত হবে</p>
+</div>
+
+<script>
+    let currentBalance = 0;
+    function startVideoAd() {
+        const player = document.getElementById('videoPlayer');
+        const countdownText = document.getElementById('countdown');
+        player.style.display = 'flex';
+        let timeLeft = 15;
+        const timer = setInterval(() => {
+            timeLeft--;
+            countdownText.innerText = `🎬 বিজ্ঞাপন চলছে... ${timeLeft} সেকেন্ড বাকি`;
+            if (timeLeft <= 0) {
+                clearInterval(timer);
+                player.style.display = 'none';
+                currentBalance += 20;
+                document.getElementById('balance').innerText = currentBalance;
+                alert('অভিনন্দন! আপনি সফলভাবে ভিডিওটি দেখেছেন এবং ৳২০ পেয়েছেন।');
+            }
+        }, 1000);
+    }
+    function showReferLink() {
+        alert('আপনার রেফারাল কোড: REF' + Math.floor(100000 + Math.random() * 900000) + '\n\nএটি বন্ধুদের সাথে শেয়ার করুন!');
+    }
+    function withdrawNotice() {
+        alert('সর্বনিম্ন উত্তোলন সীমা ৳৫০০। আপনার ব্যালেন্স পর্যাপ্ত হলে বিকাশ বা রকেটে নিতে পারবেন।');
+    }
+</script>
+
+</body>
+</html>
